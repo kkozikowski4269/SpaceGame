@@ -32,13 +32,14 @@ public class App extends Application {
     public static void setRoot(String fxml) throws IOException {
         //scene.setRoot(loadFXML(fxml));
         GameView gameView = GameView.getInstance();
+        GameController gameController = new GameController();
         scene = new Scene(gameView, 1280, 720);
         stage.centerOnScreen();
         stage.setScene(scene);
         scene.setRoot(gameView);
         stage.show();
-        GameController gameController = new GameController();
         gameController.setUp();
+        gameController.run();
     }
 
     private static Parent loadFXML(String fxml) throws IOException {

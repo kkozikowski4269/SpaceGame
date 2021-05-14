@@ -1,5 +1,8 @@
 package org.example.model;
 
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+
 import java.util.ArrayList;
 
 public class Game {
@@ -9,16 +12,18 @@ public class Game {
     private int invaderPointValue;
     private static Game game = new Game();
 
+    //CONTROLS
+    public static final KeyCode MOVE_LEFT = KeyCode.A;
+    public static final KeyCode MOVE_RIGHT = KeyCode.D;
+    public static final KeyCode SHOOT = KeyCode.SPACE;
+    public static final KeyCode PAUSE = KeyCode.ESCAPE;
+
     private Game(){
         player = Player.getInstance();
         this.invaders = new ArrayList<>();
         this.invaderPointValue = 150;
         this.score = 0;
     };
-
-    public void movePlayer(){
-
-    }
 
     public static Game getInstance(){
         return Game.game;
