@@ -6,4 +6,11 @@ public class Invader extends Character{
         this.hitBox = new HitBox();
         this.updateHitBox();
     }
+
+    public boolean isHitBy(Laser laser){
+        if(this.hitBox.isCollidingWith(laser.getHitBox())){
+            return true;
+        }
+        return false;
+    }
 }

@@ -1,5 +1,6 @@
 package org.example.model;
 
+import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -10,6 +11,7 @@ public abstract class GameObject {
     private double height;
     private Image image;
     private ImageView imageView;
+    protected HitBox hitBox;
 
     public double getPosX() {
         return posX;
@@ -59,5 +61,17 @@ public abstract class GameObject {
 
     public void setImageView(Image image) {
         this.imageView = new ImageView(image);
+    }
+
+    public HitBox getHitBox() {
+        return hitBox;
+    }
+
+    public void updateHitBox(){
+        Point2D topLeft = new Point2D(this.getPosX(),this.getPosY());
+        Point2D topRight = new Point2D(this.getPosX()+this.getWidth(), this.getPosY());
+        Point2D bottomLeft = new Point2D(this.getPosX(), this.getPosY()+this.getHeight());
+        Point2D bottomRight = new Point2D(this.getPosX()+this.getWidth(), this.getPosY()+this.getWidth());
+        this.hitBox.set(topLeft, topRight, bottomLeft, bottomRight);
     }
 }
