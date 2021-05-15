@@ -16,7 +16,6 @@ public class GameController {
     private Game game;
     private Player player;
     private Timeline timeline;
-    // --------- TO BE REMOVED - add one invader to test laser collision - TO BE REMOVED ---------
 
     public GameController(){
         this.gameView = GameView.getInstance();
@@ -27,17 +26,7 @@ public class GameController {
     public void setUp(){
         this.setGameObjectSprite(player,new Image("assets/spaceshooter/PNG/playerShip2_green.png"), 50, 50);
         this.addGameObject(player,GameView.RIGHT_BOUNDS/2, GameView.BOTTOM_BOUNDS-100);
-        // --------- TO BE REMOVED - for testing enemy/laser collision - TO BE REMOVED ---------
-        for(int i = 0; i < 10; i++){
-            this.game.addInvader(new Invader());
-        }
-        double x = 50;
-        for(Invader invader : this.game.getInvaders()){
-            this.setGameObjectSprite(invader, new Image("assets/spaceshooter/PNG/Enemies/enemyRed1.png"), 50, 50);
-            this.addGameObject(invader, x, 200);
-            invader.updateHitBox();
-            x += invader.getWidth()+10;
-        }
+        this.initializeInvaders(15);
     }
 
     public void run(){
@@ -111,6 +100,19 @@ public class GameController {
                 }
                 i++;
             }
+        }
+    }
+
+    public void initializeInvaders(int numInvaders){
+        for(int i = 0; i < numInvaders; i++){
+            this.game.addInvader(new Invader());
+        }
+        double x = 50;
+        for(Invader invader : this.game.getInvaders()){
+            this.setGameObjectSprite(invader, new Image("assets/spaceshooter/PNG/Enemies/enemyRed1.png"), 50, 50);
+            this.addGameObject(invader, x, 200);
+            invader.updateHitBox();
+            x += invader.getWidth()+10;
         }
     }
 
