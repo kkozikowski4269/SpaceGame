@@ -1,10 +1,21 @@
 package org.example.model;
 
+import javafx.geometry.Point2D;
+
 public abstract class Character extends GameObject{
     private double speed;
     private int maxHealth;
     private int currentHealth;
     private boolean alive;
+    protected HitBox hitBox;
+
+    public void updateHitBox(){
+        Point2D topLeft = new Point2D(this.getPosX(),this.getPosY());
+        Point2D topRight = new Point2D(this.getPosX()+this.getWidth(), this.getPosY());
+        Point2D bottomLeft = new Point2D(this.getPosX(), this.getPosY()+this.getHeight());
+        Point2D bottomRight = new Point2D(this.getPosX()+this.getWidth(), this.getPosY()+this.getWidth());
+        this.hitBox.set(topLeft, topRight, bottomLeft, bottomRight);
+    }
 
     public double getSpeed() {
         return speed;
