@@ -12,6 +12,7 @@ public class GameView extends Pane {
     public static final double RIGHT_BOUNDS = 1280;
     public static final double TOP_BOUNDS = 0;
     public static final double BOTTOM_BOUNDS = 720;
+    private Background bg;
 
     private GameView(){
         this.setBackground();
@@ -27,7 +28,7 @@ public class GameView extends Pane {
                 BackgroundRepeat.REPEAT,
                 BackgroundPosition.CENTER,
                 new BackgroundSize(this.getWidth(), this.getHeight(), false, false, true, true));
-        Background bg = new Background(bgImage);
+        this.bg = new Background(bgImage);
         this.setBackground(bg);
     }
 }

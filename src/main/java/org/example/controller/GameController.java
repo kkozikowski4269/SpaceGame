@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.util.Duration;
 import org.example.model.Game;
 import org.example.model.GameObject;
+import org.example.model.Invader;
 import org.example.model.Player;
 import org.example.view.GameView;
 
@@ -15,22 +16,37 @@ public class GameController {
     private Game game;
     private Player player;
     private Timeline timeline;
+    // --------- TO BE REMOVED - add one invader to test laser collision - TO BE REMOVED ---------
+    private Invader invader;
 
     public GameController(){
         this.gameView = GameView.getInstance();
         this.game = Game.getInstance();
         this.player = this.game.getPlayer();
+        this.invader = new Invader();
     };
 
     public void setUp(){
         this.setGameObjectSprite(player,new Image("assets/spaceshooter/PNG/playerShip2_green.png"), 50, 50);
         this.addGameObject(player,GameView.RIGHT_BOUNDS/2, GameView.BOTTOM_BOUNDS-100);
+        // --------- TO BE REMOVED - for testing enemy/laser collision - TO BE REMOVED ---------
+        this.setGameObjectSprite(this.invader, new Image("assets/spaceshooter/PNG/Enemies/enemyRed1.png"), 50, 50);
+        this.addGameObject(this.invader, 600, 200);
+        this.invader.updateHitBox();
     }
 
     public void run(){
         this.timeline = new Timeline(new KeyFrame(Duration.millis(10), e -> {
             this.keyActions();
             this.playerAction();
+            if(this.player.hasActiveRocket() && this.invader != null){
+                if(this.invader.isHitBy(this.player.getLaser())){
+                    this.removeGameObject(this.player.getLaser());
+                    this.player.destroyLaser();
+                    this.removeGameObject(this.invader);
+                    this.invader = null;
+                }
+            }
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
         this.timeline.play();

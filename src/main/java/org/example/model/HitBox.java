@@ -48,4 +48,34 @@ public class HitBox {
         this.bottomLeft = bottomLeft;
         this.bottomRight = bottomRight;
     }
+
+    public boolean isCollidingWith(HitBox collision){
+        if(collision.topLeft.getX() >= this.topLeft.getX() &&
+                collision.topLeft.getX() <= this.topRight.getX() &&
+                collision.topLeft.getY() >= this.topLeft.getY() &&
+                collision.topLeft.getY() <= this.bottomLeft.getY()){
+            return true;
+        }
+        if(collision.topRight.getX() >= this.topLeft.getX() &&
+                collision.topRight.getX() <= this.topRight.getX() &&
+                collision.topRight.getY() >= this.topLeft.getY() &&
+                collision.topRight.getY() <= this.bottomLeft.getY()){
+            return true;
+        }
+        if(collision.bottomLeft.getX() >= this.topLeft.getX() &&
+                collision.bottomLeft.getX() <= this.topRight.getX() &&
+                collision.bottomLeft.getY() >= this.topLeft.getY() &&
+                collision.bottomLeft.getY() <= this.bottomLeft.getY()){
+            return true;
+        }
+        if(collision.bottomRight.getX() >= this.topLeft.getX() &&
+                collision.bottomRight.getX() <= this.topRight.getX() &&
+                collision.bottomRight.getY() >= this.topLeft.getY() &&
+                collision.bottomRight.getY() <= this.bottomLeft.getY()){
+            return true;
+        }
+
+
+        return false;
+    }
 }
