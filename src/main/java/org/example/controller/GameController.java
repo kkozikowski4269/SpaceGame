@@ -103,6 +103,7 @@ public class GameController {
         }
     }
 
+    // NEED TO REMOVE HARDCODING FROM THIS FUNCTION
     public void initializeInvaders(int numInvaders){
         for(int i = 0; i < numInvaders; i++){
             this.game.addInvader(new Invader());
