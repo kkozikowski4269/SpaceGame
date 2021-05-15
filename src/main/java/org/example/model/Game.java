@@ -33,12 +33,20 @@ public class Game {
         return this.player;
     }
 
+    public ArrayList<Invader> getInvaders() {
+        return invaders;
+    }
+
     public void addInvader(Invader invader){
         this.invaders.add(invader);
     }
 
     public void removeInvader(int position){
         this.invaders.remove(position);
+    }
+
+    public void removeInvader(Invader invader){
+        this.invaders.remove(invader);
     }
 
     public int numInvaders(){
