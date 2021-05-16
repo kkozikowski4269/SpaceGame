@@ -64,4 +64,12 @@ public class Game {
     public void increaseScore(int increment){
         this.score += increment;
     }
+
+    public int getInvaderPointValue() {
+        return invaderPointValue;
+    }
+
+    public void setInvaderPointValue(int invaderPointValue) {
+        this.invaderPointValue = invaderPointValue;
+    }
 }
