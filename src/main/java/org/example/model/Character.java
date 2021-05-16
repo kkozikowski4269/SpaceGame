@@ -7,6 +7,8 @@ public abstract class Character extends GameObject{
     private int maxHealth;
     private int currentHealth;
     private boolean alive;
+    private double moveSpeed;
+    private int direction;
 
     public double getSpeed() {
         return speed;
@@ -38,5 +40,26 @@ public abstract class Character extends GameObject{
 
     public void setAlive(boolean alive) {
         this.alive = alive;
+    }
+
+    public double getMoveSpeed() {
+        return moveSpeed;
+    }
+
+    public void setMoveSpeed(double moveSpeed) {
+        this.moveSpeed = moveSpeed;
+    }
+
+    public int getDirection() {
+        return direction;
+    }
+
+    public void setDirection(int direction) {
+        this.direction = direction;
+    }
+
+    public void move(){
+        this.setPosX(this.getPosX()+(this.getMoveSpeed()*this.getDirection()));
+        this.updateHitBox();
     }
 }

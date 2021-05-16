@@ -10,8 +10,6 @@ public class Player extends Character{
     private boolean movingLeft;
     private boolean movingRight;
     private boolean shooting;
-    private double moveSpeed;
-    private int direction;
     private Laser laser;
 
 
@@ -19,8 +17,8 @@ public class Player extends Character{
         this.movingLeft = false;
         this.movingRight = false;
         this.shooting = false;
-        this.moveSpeed = 5;
-        this.direction = 0;
+        this.setMoveSpeed(5);
+        this.setDirection(0);
         this.laser = null;
         this.hitBox = new HitBox();
         this.updateHitBox();
@@ -86,20 +84,6 @@ public class Player extends Character{
 
     public void setShooting(boolean shooting) {
         this.shooting = shooting;
-    }
-
-    public double getMoveSpeed(){
-        return this.moveSpeed;
-    }
-
-    public void setMoveSpeed(double speed){
-        this.moveSpeed = speed;
-    }
-
-    public int getDirection() { return direction; }
-
-    public void setDirection(int direction) {
-        this.direction = direction;
     }
 
     public boolean hasActiveRocket(){
