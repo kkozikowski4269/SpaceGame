@@ -35,6 +35,7 @@ public class GameController {
         this.timeline = new Timeline(new KeyFrame(Duration.millis(10), e -> {
             this.keyActions();
             this.playerAction();
+            this.invaderAction();
             this.checkCollisions();
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -63,6 +64,23 @@ public class GameController {
             }
         }
         this.player.move();
+    }
+
+    public void invaderAction(){
+        boolean hasReachedEnd = false;
+        for(Invader invader : this.game.getInvaders()){
+            invader.move();
+            if(invader.getPosX()+invader.getWidth() > GameView.RIGHT_BOUNDS ||
+                invader.getPosX() < GameView.LEFT_BOUNDS){
+                hasReachedEnd = true;
+            }
+        }
+        if(hasReachedEnd){
+            for(Invader invader : this.game.getInvaders()){
+                invader.setDirection(invader.getDirection()*-1);
+                invader.descend();
+            }
+        }
     }
 
     public void keyActions(){
@@ -116,6 +134,8 @@ public class GameController {
         for(Invader invader : this.game.getInvaders()){
             this.setGameObjectSprite(invader, new Image("assets/spaceshooter/PNG/Enemies/enemyRed1.png"), 50, 50);
             this.addGameObject(invader, x, y);
+            invader.setDirection(1);
+            invader.setMoveSpeed(0.25);
             invader.updateHitBox();
             x += invader.getWidth()+10;
             if(count%10 == 0){

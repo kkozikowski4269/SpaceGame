@@ -13,4 +13,9 @@ public class Invader extends Character{
         }
         return false;
     }
+
+    public void descend(){
+        this.setPosY(this.getPosY()+this.getHeight()+10);
+    }
+
 }
