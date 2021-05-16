@@ -11,6 +11,8 @@ import org.example.model.Invader;
 import org.example.model.Player;
 import org.example.view.GameView;
 
+import java.util.ArrayList;
+
 public class GameController {
     private GameView gameView;
     private Game game;
@@ -26,7 +28,7 @@ public class GameController {
     public void setUp(){
         this.setGameObjectSprite(player,new Image("assets/spaceshooter/PNG/playerShip2_green.png"), 50, 50);
         this.addGameObject(player,GameView.RIGHT_BOUNDS/2, GameView.BOTTOM_BOUNDS-100);
-        this.initializeInvaders(15);
+        this.initializeInvaders(30);
     }
 
     public void run(){
@@ -108,12 +110,19 @@ public class GameController {
         for(int i = 0; i < numInvaders; i++){
             this.game.addInvader(new Invader());
         }
-        double x = 50;
+        double x = 10;
+        double y = 10;
+        int count = 1;
         for(Invader invader : this.game.getInvaders()){
             this.setGameObjectSprite(invader, new Image("assets/spaceshooter/PNG/Enemies/enemyRed1.png"), 50, 50);
-            this.addGameObject(invader, x, 200);
+            this.addGameObject(invader, x, y);
             invader.updateHitBox();
             x += invader.getWidth()+10;
+            if(count%10 == 0){
+                x = 10;
+                y += invader.getHeight()+10;
+            }
+            count++;
         }
     }
 
