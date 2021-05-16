@@ -18,11 +18,13 @@ public class GameController {
     private Game game;
     private Player player;
     private Timeline timeline;
+    private boolean paused;
 
     public GameController(){
         this.gameView = GameView.getInstance();
         this.game = Game.getInstance();
         this.player = this.game.getPlayer();
+        this.paused = false;
     };
 
     public void setUp(){
@@ -33,10 +35,14 @@ public class GameController {
 
     public void run(){
         this.timeline = new Timeline(new KeyFrame(Duration.millis(10), e -> {
-            this.keyActions();
-            this.playerAction();
-            this.invaderAction();
-            this.checkCollisions();
+            if(!this.isPaused()) {
+                this.keyActions();
+                this.playerAction();
+                this.invaderAction();
+                this.checkCollisions();
+            }else{
+                this.keyActions();
+            }
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
         this.timeline.play();
@@ -92,7 +98,11 @@ public class GameController {
             }else if(e.getCode() == Game.SHOOT){
                 this.player.setShooting(true);
             }else if(e.getCode() == Game.PAUSE){
-
+                if(this.isPaused()){
+                    this.setPaused(false);
+                }else{
+                    this.setPaused(true);
+                }
             }
         });
         this.gameView.getScene().setOnKeyReleased(e->{
@@ -161,5 +171,13 @@ public class GameController {
         gameObject.setImageView(image);
         gameObject.setWidth(width);
         gameObject.setHeight(height);
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
     }
 }
