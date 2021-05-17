@@ -4,14 +4,15 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.image.Image;
+import javafx.scene.media.AudioClip;
 import javafx.util.Duration;
 import org.example.model.Game;
 import org.example.model.GameObject;
 import org.example.model.Invader;
 import org.example.model.Player;
 import org.example.view.GameView;
-
-import java.util.ArrayList;
+import javafx.scene.media.Media;
+import java.io.File;
 
 public class GameController {
     private GameView gameView;
@@ -34,6 +35,9 @@ public class GameController {
     }
 
     public void run(){
+        String file = "src/main/resources/sounds/main_bg_music.mp3";
+        // source: https://mixkit.co/free-stock-music/tag/videogame/
+        this.playSound(file, 0.5, true);
         this.timeline = new Timeline(new KeyFrame(Duration.millis(10), e -> {
             if(!this.isPaused()) {
                 this.keyActions();
@@ -61,6 +65,9 @@ public class GameController {
         // ----------------player shooting actions----------------
         if(this.player.isShooting() && !this.player.hasActiveRocket()){
             this.gameView.getChildren().add(this.player.shootLaser().getImageView());
+            String file = "src/main/resources/sounds/player_laser.wav";
+            // source: https://mixkit.co/free-sound-effects/game/
+            this.playSound(file, 1, false);
         }
         if(this.player.hasActiveRocket()){
             this.player.getLaser().move();
@@ -123,6 +130,9 @@ public class GameController {
             int i = 0;
             while(i < this.game.getInvaders().size() && this.player.hasActiveRocket()){
                 if (this.game.getInvaders().get(i).isHitBy(this.player.getLaser())) {
+                    String file = "src/main/resources/sounds/invader_hit.wav";
+                    // source: https://mixkit.co/free-sound-effects/game/
+                    this.playSound(file, 1, false);
                     this.removeGameObject(this.player.getLaser());
                     this.player.destroyLaser();
                     this.removeGameObject(this.game.getInvaders().get(i));
@@ -179,5 +189,20 @@ public class GameController {
 
     public void setPaused(boolean paused) {
         this.paused = paused;
+    }
+
+    public void playSound(String file, double volume, boolean loop){
+        if(loop){
+            Media media = new Media(new File(file).toURI().toString());
+            AudioClip audioClip = new AudioClip(media.getSource());
+            audioClip.setVolume(volume);
+            audioClip.setCycleCount(AudioClip.INDEFINITE);
+            audioClip.play();
+        }else{
+            Media media = new Media(new File(file).toURI().toString());
+            AudioClip audioClip = new AudioClip(media.getSource());
+            audioClip.setVolume(volume);
+            audioClip.play();
+        }
     }
 }
