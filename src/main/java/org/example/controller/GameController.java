@@ -5,11 +5,9 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
-import org.example.model.Game;
-import org.example.model.GameObject;
-import org.example.model.Invader;
-import org.example.model.Player;
+import org.example.model.*;
 import org.example.view.GameView;
 import javafx.scene.media.Media;
 import java.io.File;
@@ -29,6 +27,15 @@ public class GameController {
     };
 
     public void setUp(){
+        //--------------------------Need to edit out hard coding--------------------------------
+        this.addHud(this.game.getHud(),0,GameView.BOTTOM_BOUNDS-50,GameView.RIGHT_BOUNDS, 50);
+        this.game.getHud().addPlayerName("Player: Kevin", 10,20);
+        this.game.getHud().addScore(0, 10, 40);
+        this.game.getHud().addLevel(1, this.game.getHud().getPrefWidth()/2, 40);
+        this.game.getHud().setTextColor(Color.WHITE);
+        this.game.getHud().setTextSize(20);
+        //--------------------------------------------------------------------------------------
+        this.gameView.setBackground(new Image("assets/spaceshooter/Backgrounds/black.png"));
         this.setGameObjectSprite(player,new Image("assets/spaceshooter/PNG/playerShip2_green.png"), 50, 50);
         this.addGameObject(player,GameView.RIGHT_BOUNDS/2, GameView.BOTTOM_BOUNDS-100);
         this.initializeInvaders(30);
@@ -37,10 +44,11 @@ public class GameController {
     public void run(){
         String file = "src/main/resources/sounds/main_bg_music.mp3";
         // source: https://mixkit.co/free-stock-music/tag/videogame/
-        this.playSound(file, 0.5, true);
+        AudioClip bgMusic = this.playSound(file, 0.5, true);
         this.timeline = new Timeline(new KeyFrame(Duration.millis(10), e -> {
             if(!this.isPaused()) {
                 this.keyActions();
+                this.gameActions();
                 this.playerAction();
                 this.invaderAction();
                 this.checkCollisions();
@@ -96,6 +104,10 @@ public class GameController {
         }
     }
 
+    public void gameActions(){
+
+    }
+
     public void keyActions(){
         this.gameView.getScene().setOnKeyPressed(e->{
             if(e.getCode() == Game.MOVE_LEFT){
@@ -137,6 +149,8 @@ public class GameController {
                     this.player.destroyLaser();
                     this.removeGameObject(this.game.getInvaders().get(i));
                     this.game.removeInvader(i);
+                    this.game.increaseScore(this.game.getInvaderPointValue());
+                    this.game.getHud().setScore(this.game.getScore());
                 }
                 i++;
             }
@@ -166,6 +180,14 @@ public class GameController {
         }
     }
 
+    public void addHud(HUD hud, double x, double y, double width, double height){
+        hud.setLayoutX(x);
+        hud.setLayoutY(y);
+        hud.setPrefWidth(width);
+        hud.setPrefHeight(height);
+        this.gameView.getChildren().add(hud);
+    }
+
     public void addGameObject(GameObject gameObject, double posX, double posY){
         gameObject.setPosX(posX);
         gameObject.setPosY(posY);
@@ -191,18 +213,20 @@ public class GameController {
         this.paused = paused;
     }
 
-    public void playSound(String file, double volume, boolean loop){
+    public AudioClip playSound(String file, double volume, boolean loop){
         if(loop){
             Media media = new Media(new File(file).toURI().toString());
             AudioClip audioClip = new AudioClip(media.getSource());
             audioClip.setVolume(volume);
             audioClip.setCycleCount(AudioClip.INDEFINITE);
             audioClip.play();
+            return audioClip;
         }else{
             Media media = new Media(new File(file).toURI().toString());
             AudioClip audioClip = new AudioClip(media.getSource());
             audioClip.setVolume(volume);
             audioClip.play();
+            return audioClip;
         }
     }
 }

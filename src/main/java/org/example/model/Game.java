@@ -10,6 +10,7 @@ public class Game {
     private ArrayList<Invader> invaders;
     private int score;
     private int invaderPointValue;
+    private HUD hud;
     private static Game game = new Game();
 
     //CONTROLS
@@ -19,10 +20,11 @@ public class Game {
     public static final KeyCode PAUSE = KeyCode.ESCAPE;
 
     private Game(){
-        player = Player.getInstance();
+        this.player = Player.getInstance();
         this.invaders = new ArrayList<>();
-        this.invaderPointValue = 150;
-        this.score = 0;
+        this.setInvaderPointValue(150);
+        this.setScore(0);
+        this.hud = new HUD();
     };
 
     public static Game getInstance(){
@@ -71,5 +73,9 @@ public class Game {
 
     public void setInvaderPointValue(int invaderPointValue) {
         this.invaderPointValue = invaderPointValue;
+    }
+
+    public HUD getHud() {
+        return hud;
     }
 }
