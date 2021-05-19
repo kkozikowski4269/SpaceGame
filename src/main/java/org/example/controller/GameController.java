@@ -6,6 +6,7 @@ import javafx.animation.Timeline;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.example.model.*;
 import org.example.view.GameView;
@@ -34,6 +35,10 @@ public class GameController {
         this.game.getHud().addLevel(1, this.game.getHud().getPrefWidth()/2, 40);
         this.game.getHud().setTextColor(Color.WHITE);
         this.game.getHud().setTextSize(20);
+        this.game.getHud().getHealthBar().setImageView(new Image("images/health_bar_bg.png"));
+        this.game.getHud().getHealthBar().setWidth(200);
+        this.game.getHud().getHealthBar().setHeight(20);
+        this.game.getHud().addHealthBar(300, 20);
         //--------------------------------------------------------------------------------------
         this.gameView.setBackground(new Image("assets/spaceshooter/Backgrounds/black.png"));
         this.setGameObjectSprite(player,new Image("assets/spaceshooter/PNG/playerShip2_green.png"), 50, 50);
