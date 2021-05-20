@@ -3,6 +3,7 @@ package org.example.view;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import org.example.model.HUD;
 
 public class GameView extends Pane {
 
@@ -14,20 +15,20 @@ public class GameView extends Pane {
     public static final double BOTTOM_BOUNDS = 720;
     private Background bg;
 
-    private GameView(){
-        this.setBackground();
-    }
+    private GameView(){}
 
     public static GameView getInstance(){
         return gameView;
     }
 
-    public void setBackground(){
-        BackgroundImage bgImage = new BackgroundImage(new Image("assets/spaceshooter/Backgrounds/black.png"),
-                BackgroundRepeat.REPEAT,
-                BackgroundRepeat.REPEAT,
-                BackgroundPosition.CENTER,
-                new BackgroundSize(this.getWidth(), this.getHeight(), false, false, true, true));
+    public void setBackground(Image image){
+        BackgroundImage bgImage = new BackgroundImage(
+            image,
+            BackgroundRepeat.REPEAT,
+            BackgroundRepeat.REPEAT,
+            BackgroundPosition.CENTER,
+            new BackgroundSize(this.getWidth(), this.getHeight(), false, false, true, true)
+        );
         this.bg = new Background(bgImage);
         this.setBackground(bg);
     }
