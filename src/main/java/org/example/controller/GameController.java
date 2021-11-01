@@ -33,16 +33,14 @@ public class GameController {
     public void setUp(){
         this.setUpHud(this.game.getHud(), GameView.RIGHT_BOUNDS, 50);
         this.addHud(this.game.getHud(),0,GameView.BOTTOM_BOUNDS-50);
-        this.gameView.setBackground(new Image("assets/spaceshooter/Backgrounds/black.png"));
-        this.setGameObjectSprite(player,new Image("assets/spaceshooter/PNG/playerShip2_green.png"), 50, 50);
+        this.gameView.setBackground(new Image(Game.MAIN_BACKGROUND_IMAGE));
+        this.setGameObjectSprite(player,new Image(Game.PLAYER_SHIP_IMAGE), 50, 50);
         this.addGameObject(player,GameView.RIGHT_BOUNDS/2, GameView.BOTTOM_BOUNDS-100);
         this.initializeInvaders(30);
     }
 
     public void run(){
-        String file = "src/main/resources/sounds/main_bg_music.mp3";
-        // source: https://mixkit.co/free-stock-music/tag/videogame/
-        AudioClip bgMusic = this.playSound(file, 0.5, true);
+        AudioClip bgMusic = this.playSound(Game.BACKGROUND_SOUND, 0.5, true);
         this.timeline = new Timeline(new KeyFrame(Duration.millis(10), e -> {
             if(!this.isPaused()) {
                 this.keyActions();
@@ -71,9 +69,7 @@ public class GameController {
         // ----------------player shooting actions----------------
         if(this.player.isShooting() && !this.player.hasActiveRocket()){
             this.gameView.getChildren().add(this.player.shootLaser().getImageView());
-            String file = "src/main/resources/sounds/player_laser.wav";
-            // source: https://mixkit.co/free-sound-effects/game/
-            this.playSound(file, 1, false);
+            this.playSound(Game.PLAYER_SHOOT_SOUND, 1, false);
         }
         if(this.player.hasActiveRocket()){
             this.player.getLaser().move();
@@ -140,9 +136,7 @@ public class GameController {
             int i = 0;
             while(i < this.game.getInvaders().size() && this.player.hasActiveRocket()){
                 if (this.game.getInvaders().get(i).isHitBy(this.player.getLaser())) {
-                    String file = "src/main/resources/sounds/invader_hit.wav";
-                    // source: https://mixkit.co/free-sound-effects/game/
-                    this.playSound(file, 1, false);
+                    this.playSound(Game.INVADER_HIT_SOUND, 1, false);
                     this.removeGameObject(this.player.getLaser());
                     this.player.destroyLaser();
                     this.removeGameObject(this.game.getInvaders().get(i));
@@ -164,7 +158,7 @@ public class GameController {
         double y = 10;
         int count = 1;
         for(Invader invader : this.game.getInvaders()){
-            this.setGameObjectSprite(invader, new Image("assets/spaceshooter/PNG/Enemies/enemyRed1.png"), 50, 50);
+            this.setGameObjectSprite(invader, new Image(Game.ENEMY_SHIP_IMAGE), 50, 50);
             this.addGameObject(invader, x, y);
             invader.setDirection(1);
             invader.setMoveSpeed(0.25);
@@ -192,7 +186,7 @@ public class GameController {
         this.game.getHud().addLevel(1, this.game.getHud().getPrefWidth()/2, 40);
         this.game.getHud().setTextColor(Color.WHITE);
         this.game.getHud().setTextSize(20);
-        this.game.getHud().getHealthBar().setImageView(new Image("images/health_bar_bg.png"));
+        this.game.getHud().getHealthBar().setImageView(new Image(Game.PLAYER_HEALTHBAR_IMAGE));
         this.game.getHud().getHealthBar().setWidth(200);
         this.game.getHud().getHealthBar().setHeight(20);
         this.game.getHud().addHealthBar(300, 20);

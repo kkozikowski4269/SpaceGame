@@ -35,7 +35,7 @@ public class Player extends Character{
 
     public Laser shootLaser(){
         this.laser = new Laser();
-        laser.setImage(new Image("assets/spaceshooter/PNG/Lasers/laserGreen04.png"));
+        laser.setImage(new Image(Game.PLAYER_LASER_IMAGE));
         laser.setImageView(laser.getImage());
         laser.setHeight(20);
         laser.setWidth(5);

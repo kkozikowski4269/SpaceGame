@@ -13,7 +13,23 @@ public class Game {
     private HUD hud;
     private static Game game = new Game();
 
-    //CONTROLS
+    //------------Game Constants-------------
+    // image files
+    public static final String PLAYER_SHIP_IMAGE = "assets/spaceshooter/PNG/playerShip2_green.png";
+    public static final String PLAYER_LASER_IMAGE = "assets/spaceshooter/PNG/Lasers/laserGreen04.png";
+    public static final String PLAYER_HEALTHBAR_IMAGE = "images/health_bar_bg.png";
+    public static final String ENEMY_SHIP_IMAGE = "assets/spaceshooter/PNG/Enemies/enemyRed1.png";
+    public static final String MAIN_BACKGROUND_IMAGE = "assets/spaceshooter/Backgrounds/black.png";
+    // sound files
+    // source: https://mixkit.co/free-stock-music/tag/videogame/
+    public static final String BACKGROUND_SOUND = "src/main/resources/sounds/main_bg_music.mp3";
+    // source: https://mixkit.co/free-sound-effects/game/
+    public static final String PLAYER_SHOOT_SOUND = "src/main/resources/sounds/player_laser.wav";
+    // source: https://mixkit.co/free-sound-effects/game/
+    public static final String INVADER_HIT_SOUND = "src/main/resources/sounds/invader_hit.wav";
+
+
+    //-------------CONTROLS------------------
     public static final KeyCode MOVE_LEFT = KeyCode.A;
     public static final KeyCode MOVE_RIGHT = KeyCode.D;
     public static final KeyCode SHOOT = KeyCode.SPACE;
