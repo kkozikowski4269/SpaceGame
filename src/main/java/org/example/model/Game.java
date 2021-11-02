@@ -13,10 +13,12 @@ public class Game {
     private HUD hud;
     private Difficulty difficulty;
     private static Game game = new Game();
+    private static String playerStyle;
+    private static String playerColor;
+    private static String playerShipImage;
 
     //------------Game Constants-------------
     // image files
-    public static final String PLAYER_SHIP_IMAGE = "assets/spaceshooter/PNG/playerShip2_green.png";
     public static final String PLAYER_LASER_IMAGE = "assets/spaceshooter/PNG/Lasers/laserGreen04.png";
     public static final String PLAYER_HEALTHBAR_IMAGE = "images/health_bar_bg.png";
     public static final String ENEMY_SHIP_IMAGE = "assets/spaceshooter/PNG/Enemies/enemyRed1.png";
@@ -99,5 +101,15 @@ public class Game {
 
     public void setDifficulty(Difficulty.Level difficultyLevel){
         this.difficulty = new Difficulty(difficultyLevel);
+    }
+
+    public String getPlayerShipImage(){
+        return this.playerShipImage;
+    }
+
+    public static void setPlayerLook(String style, String color){
+        playerStyle = style;
+        playerColor = color;
+        playerShipImage = "assets/spaceshooter/PNG/"+playerStyle+"_"+playerColor+".png";
     }
 }
