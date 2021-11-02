@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.example.controller.GameController;
+import org.example.model.Game;
 import org.example.model.Player;
 import org.example.view.GameView;
 
@@ -22,19 +23,27 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        GameView gameView = GameView.getInstance();
-        GameController gameController = new GameController();
-        scene = new Scene(gameView, 1280, 720);
-        stage.centerOnScreen();
+        this.stage = stage;
+        scene = new Scene(loadFXML("primary"), 640, 480);
         stage.setScene(scene);
-        scene.setRoot(gameView);
         stage.show();
-        gameController.setUp();
-        gameController.run();
+//        GameView gameView = GameView.getInstance();
+//        GameController gameController = new GameController();
+//        scene = new Scene(gameView, 1280, 720);
+//        stage.centerOnScreen();
+//        stage.setScene(scene);
+//        scene.setRoot(gameView);
+//        stage.show();
+//        gameController.setUp();
+//        gameController.run();
     }
 
     public static void setRoot(String fxml) throws IOException {
 
+    }
+
+    public static Stage getStage(){
+        return stage;
     }
 
     private static Parent loadFXML(String fxml) throws IOException {

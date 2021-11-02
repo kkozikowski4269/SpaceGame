@@ -11,6 +11,7 @@ public class Game {
     private int score;
     private int invaderPointValue;
     private HUD hud;
+    private Difficulty difficulty;
     private static Game game = new Game();
 
     //------------Game Constants-------------
@@ -20,6 +21,7 @@ public class Game {
     public static final String PLAYER_HEALTHBAR_IMAGE = "images/health_bar_bg.png";
     public static final String ENEMY_SHIP_IMAGE = "assets/spaceshooter/PNG/Enemies/enemyRed1.png";
     public static final String MAIN_BACKGROUND_IMAGE = "assets/spaceshooter/Backgrounds/black.png";
+
     // sound files
     // source: https://mixkit.co/free-stock-music/tag/videogame/
     public static final String BACKGROUND_SOUND = "src/main/resources/sounds/main_bg_music.mp3";
@@ -38,7 +40,7 @@ public class Game {
     private Game(){
         this.player = Player.getInstance();
         this.invaders = new ArrayList<>();
-        this.setInvaderPointValue(150);
+        this.setInvaderPointValue(Invader.BASE_POINT_VALUE);
         this.setScore(0);
         this.hud = new HUD();
     };
@@ -93,5 +95,9 @@ public class Game {
 
     public HUD getHud() {
         return hud;
+    }
+
+    public void setDifficulty(Difficulty.Level difficultyLevel){
+        this.difficulty = new Difficulty(difficultyLevel);
     }
 }
