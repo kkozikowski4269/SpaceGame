@@ -6,11 +6,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import org.example.controller.GameController;
 import org.example.model.Difficulty;
 import org.example.model.Game;
 import org.example.view.GameView;
+
+import java.util.Locale;
 
 public class PrimaryController {
 
@@ -22,13 +26,34 @@ public class PrimaryController {
     private Button startButton;
     @FXML
     private Label nameErrorLabel;
+    @FXML
+    private ComboBox<String> shipStyleComboBox;
+    @FXML
+    private ComboBox<String> shipColorComboBox;
+    @FXML
+    private ImageView playerImageView;
+
+    private String shipStyle;
+    private String shipColor;
+    private String shipFile;
+
+    private Scene scene;
+    private Stage stage;
 
     public void initialize(){
+        this.shipStyle = "playerShip1";
+        this.shipColor = "blue";
+        this.setShipFile(this.shipStyle,this.shipColor);
         this.nameErrorLabel.setVisible(false);
-        this.difficultyComboBox.getItems().add(Difficulty.Level.Easy);
-        this.difficultyComboBox.getItems().add(Difficulty.Level.Medium);
-        this.difficultyComboBox.getItems().add(Difficulty.Level.Hard);
+        this.difficultyComboBox.getItems().addAll(Difficulty.Level.Easy,Difficulty.Level.Medium,Difficulty.Level.Hard);
         this.difficultyComboBox.setValue(Difficulty.Level.Medium);
+
+        this.shipStyleComboBox.getItems().addAll("Style 1", "Style 2", "Style 3");
+        this.shipStyleComboBox.setValue("Style 1");
+        this.shipColorComboBox.getItems().addAll("Blue", "Green", "Orange", "Red");
+        this.shipColorComboBox.setValue("Blue");
+
+        this.playerImageView.setImage(new Image(this.shipFile));
     }
 
     @FXML
@@ -38,8 +63,8 @@ public class PrimaryController {
             Game.getInstance().setDifficulty(this.difficultyComboBox.getValue());
             GameView gameView = GameView.getInstance();
             GameController gameController = new GameController();
-            Scene scene = new Scene(gameView, 1280, 720);
-            Stage stage = new Stage();
+            this.scene = new Scene(gameView, 1280, 720);
+            this.stage = new Stage();
             stage.centerOnScreen();
             stage.setScene(scene);
             scene.setRoot(gameView);
@@ -52,5 +77,33 @@ public class PrimaryController {
         }
     }
 
+    @FXML
+    public void changeStyle(){
+        switch (this.shipStyleComboBox.getValue()){
+            case "Style 1":
+                this.shipStyle = "playerShip1";
+                break;
+            case "Style 2":
+                this.shipStyle = "playerShip2";
+                break;
+            case "Style 3":
+                this.shipStyle = "playerShip3";
+                break;
+        }
+        this.setShipFile(this.shipStyle,this.shipColor);
+        this.playerImageView.setImage(new Image(this.shipFile));
+    }
+
+    @FXML
+    public void changeColor(){
+        this.shipColor = this.shipColorComboBox.getValue().toLowerCase(Locale.ROOT);
+        this.setShipFile(this.shipStyle,this.shipColor);
+        this.playerImageView.setImage(new Image(this.shipFile));
+    }
+
+    private void setShipFile(String style, String color){
+        this.shipFile = "assets/spaceshooter/PNG/" + style + "_" + color + ".png";
+        Game.setPlayerLook(style, color);
+    }
 
 }

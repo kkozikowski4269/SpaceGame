@@ -34,7 +34,7 @@ public class GameController {
         this.setUpHud(this.game.getHud(), GameView.RIGHT_BOUNDS, 50);
         this.addHud(this.game.getHud(),0,GameView.BOTTOM_BOUNDS-50);
         this.gameView.setBackground(new Image(Game.MAIN_BACKGROUND_IMAGE));
-        this.setGameObjectSprite(player,new Image(Game.PLAYER_SHIP_IMAGE), 50, 50);
+        this.setGameObjectSprite(player,new Image(this.game.getPlayerShipImage()), 50, 50);
         this.addGameObject(player,GameView.RIGHT_BOUNDS/2, GameView.BOTTOM_BOUNDS-100);
         this.initializeInvaders(30);
     }

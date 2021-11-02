@@ -27,15 +27,6 @@ public class App extends Application {
         scene = new Scene(loadFXML("primary"), 640, 480);
         stage.setScene(scene);
         stage.show();
-//        GameView gameView = GameView.getInstance();
-//        GameController gameController = new GameController();
-//        scene = new Scene(gameView, 1280, 720);
-//        stage.centerOnScreen();
-//        stage.setScene(scene);
-//        scene.setRoot(gameView);
-//        stage.show();
-//        gameController.setUp();
-//        gameController.run();
     }
 
     public static void setRoot(String fxml) throws IOException {
