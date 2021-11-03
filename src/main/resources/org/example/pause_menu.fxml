@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.PauseMenuController">
+   <children>
+      <Button fx:id="resumeButton" layoutX="130.0" layoutY="110.0" mnemonicParsing="false" onAction="#resumeGame" prefHeight="55.0" prefWidth="123.0" text="Resume" />
+      <Button fx:id="quitButton" layoutX="376.0" layoutY="110.0" mnemonicParsing="false" onAction="#quitGame" prefHeight="55.0" prefWidth="123.0" text="Quit" />
+      <Button layoutX="253.0" layoutY="221.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="123.0" text="Settings" />
+   </children>
+</AnchorPane>

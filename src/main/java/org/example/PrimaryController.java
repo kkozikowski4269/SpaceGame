@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import org.example.controller.GameController;
 import org.example.model.Difficulty;
 import org.example.model.Game;
+import org.example.model.Player;
 import org.example.view.GameView;
 
 import java.util.Locale;
@@ -33,17 +34,16 @@ public class PrimaryController {
     @FXML
     private ImageView playerImageView;
 
-    private String shipStyle;
-    private String shipColor;
     private String shipFile;
+    private Player player = Player.getInstance();
 
     private Scene scene;
-    private Stage stage;
+    private static Stage stage;
 
     public void initialize(){
-        this.shipStyle = "playerShip1";
-        this.shipColor = "blue";
-        this.setShipFile(this.shipStyle,this.shipColor);
+        player.setShipStyle("playerShip1");
+        player.setShipColor("blue");
+        this.setShipFile(player.getShipStyle(),player.getShipColor());
         this.nameErrorLabel.setVisible(false);
         this.difficultyComboBox.getItems().addAll(Difficulty.Level.Easy,Difficulty.Level.Medium,Difficulty.Level.Hard);
         this.difficultyComboBox.setValue(Difficulty.Level.Medium);
@@ -65,6 +65,7 @@ public class PrimaryController {
             GameController gameController = new GameController();
             this.scene = new Scene(gameView, 1280, 720);
             this.stage = new Stage();
+            this.stage.setTitle("Space Game");
             stage.centerOnScreen();
             stage.setScene(scene);
             scene.setRoot(gameView);
@@ -81,29 +82,33 @@ public class PrimaryController {
     public void changeStyle(){
         switch (this.shipStyleComboBox.getValue()){
             case "Style 1":
-                this.shipStyle = "playerShip1";
+                this.player.setShipStyle("playerShip1");
                 break;
             case "Style 2":
-                this.shipStyle = "playerShip2";
+                this.player.setShipStyle("playerShip2");
                 break;
             case "Style 3":
-                this.shipStyle = "playerShip3";
+                this.player.setShipStyle("playerShip3");
                 break;
         }
-        this.setShipFile(this.shipStyle,this.shipColor);
+        this.setShipFile(this.player.getShipStyle(),this.player.getShipColor());
         this.playerImageView.setImage(new Image(this.shipFile));
     }
 
     @FXML
     public void changeColor(){
-        this.shipColor = this.shipColorComboBox.getValue().toLowerCase(Locale.ROOT);
-        this.setShipFile(this.shipStyle,this.shipColor);
+        this.player.setShipColor(this.shipColorComboBox.getValue().toLowerCase(Locale.ROOT));
+        this.setShipFile(this.player.getShipStyle(),this.player.getShipColor());
         this.playerImageView.setImage(new Image(this.shipFile));
     }
 
     private void setShipFile(String style, String color){
         this.shipFile = "assets/spaceshooter/PNG/" + style + "_" + color + ".png";
         Game.setPlayerLook(style, color);
+    }
+
+    public static Stage getStage(){
+        return stage;
     }
 
 }

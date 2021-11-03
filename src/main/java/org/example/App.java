@@ -4,12 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import org.example.controller.GameController;
-import org.example.model.Game;
-import org.example.model.Player;
-import org.example.view.GameView;
 
 import java.io.IOException;
 
@@ -24,6 +19,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         this.stage = stage;
+        this.stage.setTitle("Space Game");
         scene = new Scene(loadFXML("primary"), 640, 480);
         stage.setScene(scene);
         stage.show();
