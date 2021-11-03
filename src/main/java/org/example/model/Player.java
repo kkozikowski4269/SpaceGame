@@ -11,6 +11,8 @@ public class Player extends Character{
     private boolean movingRight;
     private boolean shooting;
     private Laser laser;
+    private String shipStyle;
+    private String shipColor;
 
 
     private Player(){
@@ -84,6 +86,22 @@ public class Player extends Character{
 
     public void setShooting(boolean shooting) {
         this.shooting = shooting;
+    }
+
+    public String getShipStyle(){
+        return this.shipStyle;
+    }
+
+    public void setShipStyle(String style){
+        this.shipStyle = style;
+    }
+
+    public String getShipColor(){
+        return this.shipColor;
+    }
+
+    public void setShipColor(String color){
+        this.shipColor = color;
     }
 
     public boolean hasActiveRocket(){

@@ -3,87 +3,82 @@ package org.example.controller;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.example.PauseMenuController;
+import org.example.PrimaryController;
 import org.example.model.*;
 import org.example.view.GameView;
 import javafx.scene.media.Media;
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
 public class GameController {
-    private GameView gameView;
-    private Game game;
-    private Player player;
-    private Timeline timeline;
-    private boolean paused;
+    private static GameView gameView = GameView.getInstance();
+    private static Game game = Game.getInstance();
+    private static Player player = Player.getInstance();
+    private static Timeline timeline;
 
-    public GameController(){
-        this.gameView = GameView.getInstance();
-        this.game = Game.getInstance();
-        this.player = this.game.getPlayer();
-        //--------NEED TO REMOVE HARDCODING-----------------------
-        this.player.setName("Kevin");
-        //--------------------------------------------------------
-        this.paused = false;
-    };
-
-    public void setUp(){
-        this.setUpHud(this.game.getHud(), GameView.RIGHT_BOUNDS, 50);
-        this.addHud(this.game.getHud(),0,GameView.BOTTOM_BOUNDS-50);
-        this.gameView.setBackground(new Image(Game.MAIN_BACKGROUND_IMAGE));
-        this.setGameObjectSprite(player,new Image(this.game.getPlayerShipImage()), 50, 50);
-        this.addGameObject(player,GameView.RIGHT_BOUNDS/2, GameView.BOTTOM_BOUNDS-100);
-        this.initializeInvaders(30);
+    public static void setUp(){
+        setUpHud(game.getHud(), GameView.RIGHT_BOUNDS, 50);
+        addHud(game.getHud(),0,GameView.BOTTOM_BOUNDS-50);
+        gameView.setBackground(new Image(Game.MAIN_BACKGROUND_IMAGE));
+        setGameObjectSprite(player,new Image(game.getPlayerShipImage()), 50, 50);
+        addGameObject(player,GameView.RIGHT_BOUNDS/2, GameView.BOTTOM_BOUNDS-100);
+        initializeInvaders(30);
     }
 
-    public void run(){
-        AudioClip bgMusic = this.playSound(Game.BACKGROUND_SOUND, 0.5, true);
-        this.timeline = new Timeline(new KeyFrame(Duration.millis(10), e -> {
-            if(!this.isPaused()) {
-                this.keyActions();
-                this.gameActions();
-                this.playerAction();
-                this.invaderAction();
-                this.checkCollisions();
+    public static void run(){
+        AudioClip bgMusic = playSound(Game.BACKGROUND_SOUND, 0.5, true);
+        timeline = new Timeline(new KeyFrame(Duration.millis(10), e -> {
+            if(!game.isPaused()) {
+                keyActions();
+                gameActions();
+                playerAction();
+                invaderAction();
+                checkCollisions();
             }else{
-                this.keyActions();
+                keyActions();
             }
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
-        this.timeline.play();
+        timeline.play();
     }
 
-    public void playerAction(){
+    public static void playerAction(){
         // ----------------player moving actions----------------
-        if(this.player.isMovingLeft() && this.player.getPosX() > GameView.LEFT_BOUNDS){
-            this.player.setDirection(-1);
-        }else if(this.player.isMovingRight() && this.player.getPosX() < GameView.RIGHT_BOUNDS-this.player.getWidth()){
-            this.player.setDirection(1);
+        if(player.isMovingLeft() && player.getPosX() > GameView.LEFT_BOUNDS){
+            player.setDirection(-1);
+        }else if(player.isMovingRight() && player.getPosX() < GameView.RIGHT_BOUNDS-player.getWidth()){
+            player.setDirection(1);
         }else{
-            this.player.setDirection(0);
+            player.setDirection(0);
         }
 
         // ----------------player shooting actions----------------
-        if(this.player.isShooting() && !this.player.hasActiveRocket()){
-            this.gameView.getChildren().add(this.player.shootLaser().getImageView());
-            this.playSound(Game.PLAYER_SHOOT_SOUND, 1, false);
+        if(player.isShooting() && !player.hasActiveRocket()){
+            gameView.getChildren().add(player.shootLaser().getImageView());
+            playSound(Game.PLAYER_SHOOT_SOUND, 1, false);
         }
-        if(this.player.hasActiveRocket()){
-            this.player.getLaser().move();
-            if(this.player.getLaser().getPosY() < GameView.TOP_BOUNDS){
-                this.removeGameObject(this.player.getLaser());
-                this.player.destroyLaser();
+        if(player.hasActiveRocket()){
+            player.getLaser().move();
+            if(player.getLaser().getPosY() < GameView.TOP_BOUNDS){
+                removeGameObject(player.getLaser());
+                player.destroyLaser();
             }
         }
-        this.player.move();
+        player.move();
     }
 
-    public void invaderAction(){
+    public static void invaderAction(){
         boolean hasReachedEnd = false;
-        for(Invader invader : this.game.getInvaders()){
+        for(Invader invader : game.getInvaders()){
             invader.move();
             if(invader.getPosX()+invader.getWidth() > GameView.RIGHT_BOUNDS ||
                 invader.getPosX() < GameView.LEFT_BOUNDS){
@@ -91,58 +86,56 @@ public class GameController {
             }
         }
         if(hasReachedEnd){
-            for(Invader invader : this.game.getInvaders()){
+            for(Invader invader : game.getInvaders()){
                 invader.setDirection(invader.getDirection()*-1);
                 invader.descend();
             }
         }
     }
 
-    public void gameActions(){
+    public static void gameActions(){
 
     }
 
-    public void keyActions(){
-        this.gameView.getScene().setOnKeyPressed(e->{
+    public static void keyActions(){
+        gameView.getScene().setOnKeyPressed(e->{
             if(e.getCode() == Game.MOVE_LEFT){
-                this.player.setMovingLeft(true);
+                player.setMovingLeft(true);
             }else if(e.getCode() == Game.MOVE_RIGHT){
-                this.player.setMovingRight(true);
+                player.setMovingRight(true);
             }else if(e.getCode() == Game.SHOOT){
-                this.player.setShooting(true);
+                player.setShooting(true);
             }else if(e.getCode() == Game.PAUSE){
-                if(this.isPaused()){
-                    this.setPaused(false);
-                }else{
-                    this.setPaused(true);
-                }
+                    game.pause(true);
+                    PauseMenuController.set();
+                    PauseMenuController.getStage().show();
             }
         });
-        this.gameView.getScene().setOnKeyReleased(e->{
+        gameView.getScene().setOnKeyReleased(e->{
             if(e.getCode() == Game.MOVE_LEFT){
-                this.player.setMovingLeft(false);
+                player.setMovingLeft(false);
             }else if(e.getCode() == Game.MOVE_RIGHT){
-                this.player.setMovingRight(false);
+                player.setMovingRight(false);
             }else if(e.getCode() == Game.SHOOT){
-                this.player.setShooting(false);
+                player.setShooting(false);
             }else if(e.getCode() == Game.PAUSE){
 
             }
         });
     }
 
-    public void checkCollisions(){
-        if(this.player.hasActiveRocket()){
+    public static void checkCollisions(){
+        if(player.hasActiveRocket()){
             int i = 0;
-            while(i < this.game.getInvaders().size() && this.player.hasActiveRocket()){
-                if (this.game.getInvaders().get(i).isHitBy(this.player.getLaser())) {
-                    this.playSound(Game.INVADER_HIT_SOUND, 1, false);
-                    this.removeGameObject(this.player.getLaser());
-                    this.player.destroyLaser();
-                    this.removeGameObject(this.game.getInvaders().get(i));
-                    this.game.removeInvader(i);
-                    this.game.increaseScore(this.game.getInvaderPointValue());
-                    this.game.getHud().setScore(this.game.getScore());
+            while(i < game.getInvaders().size() && player.hasActiveRocket()){
+                if (game.getInvaders().get(i).isHitBy(player.getLaser())) {
+                    playSound(Game.INVADER_HIT_SOUND, 1, false);
+                    removeGameObject(player.getLaser());
+                    player.destroyLaser();
+                    removeGameObject(game.getInvaders().get(i));
+                    game.removeInvader(i);
+                    game.increaseScore(game.getInvaderPointValue());
+                    game.getHud().setScore(game.getScore());
                 }
                 i++;
             }
@@ -150,16 +143,16 @@ public class GameController {
     }
 
     // NEED TO REMOVE HARDCODING FROM THIS FUNCTION
-    public void initializeInvaders(int numInvaders){
+    public static void initializeInvaders(int numInvaders){
         for(int i = 0; i < numInvaders; i++){
-            this.game.addInvader(new Invader());
+            game.addInvader(new Invader());
         }
         double x = 10;
         double y = 10;
         int count = 1;
-        for(Invader invader : this.game.getInvaders()){
-            this.setGameObjectSprite(invader, new Image(Game.ENEMY_SHIP_IMAGE), 50, 50);
-            this.addGameObject(invader, x, y);
+        for(Invader invader : game.getInvaders()){
+            setGameObjectSprite(invader, new Image(Game.ENEMY_SHIP_IMAGE), 50, 50);
+            addGameObject(invader, x, y);
             invader.setDirection(1);
             invader.setMoveSpeed(0.25);
             invader.updateHitBox();
@@ -172,52 +165,44 @@ public class GameController {
         }
     }
 
-    public void addHud(HUD hud, double x, double y){
+    public static void addHud(HUD hud, double x, double y){
         hud.setLayoutX(x);
         hud.setLayoutY(y);
-        this.gameView.getChildren().add(hud);
+        gameView.getChildren().add(hud);
     }
 
-    public void setUpHud(HUD hud, double width, double height){
+    public static void setUpHud(HUD hud, double width, double height){
         hud.setPrefWidth(width);
         hud.setPrefHeight(height);
-        this.game.getHud().addPlayerName(this.player.getName(), 10,20);
-        this.game.getHud().addScore(0, 10, 40);
-        this.game.getHud().addLevel(1, this.game.getHud().getPrefWidth()/2, 40);
-        this.game.getHud().setTextColor(Color.WHITE);
-        this.game.getHud().setTextSize(20);
-        this.game.getHud().getHealthBar().setImageView(new Image(Game.PLAYER_HEALTHBAR_IMAGE));
-        this.game.getHud().getHealthBar().setWidth(200);
-        this.game.getHud().getHealthBar().setHeight(20);
-        this.game.getHud().addHealthBar(300, 20);
+        game.getHud().addPlayerName(player.getName(), 10,20);
+        game.getHud().addScore(0, 10, 40);
+        game.getHud().addLevel(1, game.getHud().getPrefWidth()/2, 40);
+        game.getHud().setTextColor(Color.WHITE);
+        game.getHud().setTextSize(20);
+        game.getHud().getHealthBar().setImageView(new Image(Game.PLAYER_HEALTHBAR_IMAGE));
+        game.getHud().getHealthBar().setWidth(200);
+        game.getHud().getHealthBar().setHeight(20);
+        game.getHud().addHealthBar(300, 20);
     }
 
-    public void addGameObject(GameObject gameObject, double posX, double posY){
+    public static void addGameObject(GameObject gameObject, double posX, double posY){
         gameObject.setPosX(posX);
         gameObject.setPosY(posY);
         gameView.getChildren().add(gameObject.getImageView());
     }
 
-    public void removeGameObject(GameObject gameObject){
-        this.gameView.getChildren().remove(gameObject.getImageView());
+    public static void removeGameObject(GameObject gameObject){
+        gameView.getChildren().remove(gameObject.getImageView());
     }
 
-    public void setGameObjectSprite(GameObject gameObject, Image image, double width, double height){
+    public static void setGameObjectSprite(GameObject gameObject, Image image, double width, double height){
         gameObject.setImage(image);
         gameObject.setImageView(image);
         gameObject.setWidth(width);
         gameObject.setHeight(height);
     }
 
-    public boolean isPaused() {
-        return paused;
-    }
-
-    public void setPaused(boolean paused) {
-        this.paused = paused;
-    }
-
-    public AudioClip playSound(String file, double volume, boolean loop){
+    public static AudioClip playSound(String file, double volume, boolean loop){
         if(loop){
             Media media = new Media(new File(file).toURI().toString());
             AudioClip audioClip = new AudioClip(media.getSource());

@@ -12,6 +12,7 @@ public class Game {
     private int invaderPointValue;
     private HUD hud;
     private Difficulty difficulty;
+    private boolean paused;
     private static Game game = new Game();
     private static String playerStyle;
     private static String playerColor;
@@ -45,6 +46,7 @@ public class Game {
         this.setInvaderPointValue(Invader.BASE_POINT_VALUE);
         this.setScore(0);
         this.hud = new HUD();
+        this.paused = false;
     };
 
     public static Game getInstance(){
@@ -105,6 +107,14 @@ public class Game {
 
     public String getPlayerShipImage(){
         return this.playerShipImage;
+    }
+
+    public boolean isPaused(){
+        return this.paused;
+    }
+
+    public void pause(boolean pause){
+        this.paused = pause;
     }
 
     public static void setPlayerLook(String style, String color){
