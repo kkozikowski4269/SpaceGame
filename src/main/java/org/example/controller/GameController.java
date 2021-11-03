@@ -8,6 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Transform;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.example.PauseMenuController;
@@ -101,8 +103,14 @@ public class GameController {
         gameView.getScene().setOnKeyPressed(e->{
             if(e.getCode() == Game.MOVE_LEFT){
                 player.setMovingLeft(true);
+                if(player.getImageView().getFitWidth() == player.getWidth()) {
+                    player.getImageView().setFitWidth(player.getWidth() / 1.35);
+                }
             }else if(e.getCode() == Game.MOVE_RIGHT){
                 player.setMovingRight(true);
+                if(player.getImageView().getFitWidth() == player.getWidth()) {
+                    player.getImageView().setFitWidth(player.getWidth() / 1.35);
+                }
             }else if(e.getCode() == Game.SHOOT){
                 player.setShooting(true);
             }else if(e.getCode() == Game.PAUSE){
@@ -114,8 +122,10 @@ public class GameController {
         gameView.getScene().setOnKeyReleased(e->{
             if(e.getCode() == Game.MOVE_LEFT){
                 player.setMovingLeft(false);
+                player.getImageView().setFitWidth(player.getWidth());
             }else if(e.getCode() == Game.MOVE_RIGHT){
                 player.setMovingRight(false);
+                player.getImageView().setFitWidth(player.getWidth());
             }else if(e.getCode() == Game.SHOOT){
                 player.setShooting(false);
             }else if(e.getCode() == Game.PAUSE){
