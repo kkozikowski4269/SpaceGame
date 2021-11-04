@@ -53,7 +53,9 @@ public class HUD extends Pane {
     public void addHealthBar(double x, double y){
         this.healthBar.setPosX(x);
         this.healthBar.setPosY(y);
-        this.getChildren().add(this.healthBar.getImageView());
+        this.getChildren().add(this.getHealthBar().getBorder());
+        this.getChildren().add(this.getHealthBar().getMaxBar());
+        this.getChildren().add(this.getHealthBar().getBar());
         this.healthBarText.setLayoutX(x-this.healthBarText.getLayoutBounds().getWidth()-5);
         this.healthBarText.setLayoutY(y*2-5);
         this.getChildren().add(this.healthBarText);

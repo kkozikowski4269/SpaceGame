@@ -1,10 +1,11 @@
 package org.example.model;
 
 import javafx.geometry.Point2D;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public abstract class GameObject {
+public abstract class GameObject{
     private double posX;
     private double posY;
     private double width;

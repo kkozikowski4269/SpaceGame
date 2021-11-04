@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.example.controller.GameController;
 import org.example.model.Difficulty;
 import org.example.model.Game;
@@ -35,7 +36,7 @@ public class PrimaryController {
     private ImageView playerImageView;
 
     private String shipFile;
-    private Player player = Player.getInstance();
+    private final Player player = Player.getInstance();
 
     private Scene scene;
     private static Stage stage;
@@ -62,16 +63,17 @@ public class PrimaryController {
             Game.getInstance().getPlayer().setName(this.nameTextField.getText());
             Game.getInstance().setDifficulty(this.difficultyComboBox.getValue());
             GameView gameView = GameView.getInstance();
-            GameController gameController = new GameController();
+            //GameController gameController = new GameController();
             this.scene = new Scene(gameView, 1280, 720);
-            this.stage = new Stage();
-            this.stage.setTitle("Space Game");
+            stage = new Stage();
+            stage.setTitle("Space Game");
             stage.centerOnScreen();
             stage.setScene(scene);
             scene.setRoot(gameView);
+            stage.initStyle(StageStyle.UNDECORATED);
             stage.show();
-            gameController.setUp();
-            gameController.run();
+            GameController.setUp();
+            GameController.run();
             App.getStage().close();
         }else{
             this.nameErrorLabel.setVisible(true);
