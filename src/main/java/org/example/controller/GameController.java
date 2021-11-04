@@ -3,23 +3,15 @@ package org.example.controller;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
-import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Transform;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.example.PauseMenuController;
-import org.example.PrimaryController;
 import org.example.model.*;
 import org.example.view.GameView;
 import javafx.scene.media.Media;
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 
 public class GameController {
     private static GameView gameView = GameView.getInstance();
@@ -189,9 +181,10 @@ public class GameController {
         game.getHud().addLevel(1, game.getHud().getPrefWidth()/2, 40);
         game.getHud().setTextColor(Color.WHITE);
         game.getHud().setTextSize(20);
-        game.getHud().getHealthBar().setImageView(new Image(Game.PLAYER_HEALTHBAR_IMAGE));
-        game.getHud().getHealthBar().setWidth(200);
-        game.getHud().getHealthBar().setHeight(20);
+        //game.getHud().getHealthBar().setImageView(new Image(Game.PLAYER_HEALTHBAR_IMAGE));
+//        game.getHud().getHealthBar().setWidth(200);
+//        game.getHud().getHealthBar().setHeight(20);
+        game.getHud().getHealthBar().setMaxSize(200, 20);
         game.getHud().addHealthBar(300, 20);
     }
 
