@@ -7,19 +7,13 @@ import java.io.File;
 
 public class Sound {
     public static AudioClip playSound(String file, double volume, boolean loop){
+        Media media = new Media(new File(file).toURI().toString());
+        AudioClip audioClip = new AudioClip(media.getSource());
+        audioClip.setVolume(volume);
         if(loop){
-            Media media = new Media(new File(file).toURI().toString());
-            AudioClip audioClip = new AudioClip(media.getSource());
-            audioClip.setVolume(volume);
             audioClip.setCycleCount(AudioClip.INDEFINITE);
-            audioClip.play();
-            return audioClip;
-        }else{
-            Media media = new Media(new File(file).toURI().toString());
-            AudioClip audioClip = new AudioClip(media.getSource());
-            audioClip.setVolume(volume);
-            audioClip.play();
-            return audioClip;
         }
+        audioClip.play();
+        return audioClip;
     }
 }
