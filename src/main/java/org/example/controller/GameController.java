@@ -29,7 +29,7 @@ public class GameController {
     }
 
     public static void run(){
-        AudioClip bgMusic = playSound(Game.BACKGROUND_SOUND, 0.5, true);
+        game.setBgMusic(Sound.playSound(Game.BACKGROUND_SOUND, game.getBgVolume(), true));
         timeline = new Timeline(new KeyFrame(Duration.millis(10), e -> {
             if(!game.isPaused()) {
                 keyActions();
@@ -58,7 +58,7 @@ public class GameController {
         // ----------------player shooting actions----------------
         if(player.isShooting() && !player.hasActiveRocket()){
             gameView.getChildren().add(player.shootLaser().getImageView());
-            playSound(Game.PLAYER_SHOOT_SOUND, 1, false);
+            Sound.playSound(Game.PLAYER_SHOOT_SOUND, 1, false);
         }
         if(player.hasActiveRocket()){
             player.getLaser().move();
@@ -106,9 +106,12 @@ public class GameController {
             }else if(e.getCode() == Game.SHOOT){
                 player.setShooting(true);
             }else if(e.getCode() == Game.PAUSE){
+                if(!PauseMenuController.isOpen()) {
+                    game.getBgMusic().stop();
                     game.pause(true);
                     PauseMenuController.set();
                     PauseMenuController.getStage().show();
+                }
             }
         });
         gameView.getScene().setOnKeyReleased(e->{
@@ -131,7 +134,7 @@ public class GameController {
             int i = 0;
             while(i < game.getInvaders().size() && player.hasActiveRocket()){
                 if (game.getInvaders().get(i).isHitBy(player.getLaser())) {
-                    playSound(Game.INVADER_HIT_SOUND, 1, false);
+                    Sound.playSound(Game.INVADER_HIT_SOUND, 1, false);
                     removeGameObject(player.getLaser());
                     player.destroyLaser();
                     removeGameObject(game.getInvaders().get(i));
@@ -181,9 +184,6 @@ public class GameController {
         game.getHud().addLevel(1, game.getHud().getPrefWidth()/2, 40);
         game.getHud().setTextColor(Color.WHITE);
         game.getHud().setTextSize(20);
-        //game.getHud().getHealthBar().setImageView(new Image(Game.PLAYER_HEALTHBAR_IMAGE));
-//        game.getHud().getHealthBar().setWidth(200);
-//        game.getHud().getHealthBar().setHeight(20);
         game.getHud().getHealthBar().setMaxSize(200, 20);
         game.getHud().addHealthBar(300, 20);
     }
@@ -203,22 +203,5 @@ public class GameController {
         gameObject.setImageView(image);
         gameObject.setWidth(width);
         gameObject.setHeight(height);
-    }
-
-    public static AudioClip playSound(String file, double volume, boolean loop){
-        if(loop){
-            Media media = new Media(new File(file).toURI().toString());
-            AudioClip audioClip = new AudioClip(media.getSource());
-            audioClip.setVolume(volume);
-            audioClip.setCycleCount(AudioClip.INDEFINITE);
-            audioClip.play();
-            return audioClip;
-        }else{
-            Media media = new Media(new File(file).toURI().toString());
-            AudioClip audioClip = new AudioClip(media.getSource());
-            audioClip.setVolume(volume);
-            audioClip.play();
-            return audioClip;
-        }
     }
 }
