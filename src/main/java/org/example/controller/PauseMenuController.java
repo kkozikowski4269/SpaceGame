@@ -1,11 +1,11 @@
-package org.example;
+package org.example.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import org.example.controller.GameController;
+import org.example.App;
 import org.example.model.Game;
 
 import java.io.IOException;
@@ -19,7 +19,7 @@ public class PauseMenuController {
 
     public static void set()
     {
-        URL fxmlLocation = PrimaryController.class.getResource("pause_menu.fxml");
+        URL fxmlLocation = App.class.getResource("view/pause_menu.fxml");
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(fxmlLocation);
         try {

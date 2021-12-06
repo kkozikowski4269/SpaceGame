@@ -4,14 +4,10 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.image.Image;
-import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-import org.example.PauseMenuController;
 import org.example.model.*;
 import org.example.view.GameView;
-import javafx.scene.media.Media;
-import java.io.File;
 
 public class GameController {
     private static GameView gameView = GameView.getInstance();
