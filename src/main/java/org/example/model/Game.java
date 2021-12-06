@@ -2,6 +2,7 @@ package org.example.model;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.AudioClip;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,9 @@ public class Game {
     private static String playerStyle;
     private static String playerColor;
     private static String playerShipImage;
+    private AudioClip bgMusic;
+    private AudioClip introMusic;
+    private double bgVolume;
 
     //------------Game Constants-------------
     // image files
@@ -27,7 +31,11 @@ public class Game {
 
     // sound files
     // source: https://mixkit.co/free-stock-music/tag/videogame/
-    public static final String BACKGROUND_SOUND = "src/main/resources/sounds/main_bg_music.mp3";
+    // source: http://soundimage.org/wp-content/uploads/2016/06/And-the-Machines-Came-at-Midnight.mp3
+    // source: http://soundimage.org/wp-content/uploads/2016/11/Automation.mp3
+//    public static final String BACKGROUND_SOUND = "src/main/resources/sounds/main_bg_music.mp3";
+    public static final String BACKGROUND_SOUND = "src/main/resources/sounds/And-the-Machines-Came-at-Midnight.mp3";
+    public static final String INTRO_SOUND = "src/main/resources/sounds/Automation.mp3";
     // source: https://mixkit.co/free-sound-effects/game/
     public static final String PLAYER_SHOOT_SOUND = "src/main/resources/sounds/player_laser.wav";
     // source: https://mixkit.co/free-sound-effects/game/
@@ -45,6 +53,7 @@ public class Game {
         this.invaders = new ArrayList<>();
         this.setInvaderPointValue(Invader.BASE_POINT_VALUE);
         this.setScore(0);
+        this.bgVolume = 0.5;
         this.hud = new HUD();
         this.paused = false;
     };
@@ -115,6 +124,30 @@ public class Game {
 
     public void pause(boolean pause){
         this.paused = pause;
+    }
+
+    public void setBgMusic(AudioClip bgMusic){
+        this.bgMusic = bgMusic;
+    }
+
+    public AudioClip getBgMusic(){
+        return this.bgMusic;
+    }
+
+    public double getBgVolume(){
+        return this.bgVolume;
+    }
+
+    public AudioClip getIntroMusic(){
+        return this.introMusic;
+    }
+
+    public void setIntroMusic(AudioClip introMusic){
+        this.introMusic = introMusic;
+    }
+
+    public void setBgVolume(double volume){
+        this.bgVolume = volume;
     }
 
     public static void setPlayerLook(String style, String color){

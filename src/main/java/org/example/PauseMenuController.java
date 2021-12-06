@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.example.controller.GameController;
 import org.example.model.Game;
 
@@ -24,6 +25,7 @@ public class PauseMenuController {
         try {
             scene = new Scene(loader.load());
             stage = new Stage();
+            stage.initStyle(StageStyle.UNDECORATED);
             stage.setScene(scene);
             setOpen(true);
         }catch(IOException e){
@@ -37,6 +39,7 @@ public class PauseMenuController {
         open = false;
         setOpen(false);
         game.pause(false);
+        game.getBgMusic().play();
     }
 
     @FXML

@@ -63,7 +63,6 @@ public class PrimaryController {
             Game.getInstance().getPlayer().setName(this.nameTextField.getText());
             Game.getInstance().setDifficulty(this.difficultyComboBox.getValue());
             GameView gameView = GameView.getInstance();
-            //GameController gameController = new GameController();
             this.scene = new Scene(gameView, 1280, 720);
             stage = new Stage();
             stage.setTitle("Space Game");
@@ -72,6 +71,7 @@ public class PrimaryController {
             scene.setRoot(gameView);
             stage.initStyle(StageStyle.UNDECORATED);
             stage.show();
+            Game.getInstance().getIntroMusic().stop();
             GameController.setUp();
             GameController.run();
             App.getStage().close();

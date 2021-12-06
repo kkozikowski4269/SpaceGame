@@ -5,6 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.example.controller.GameController;
+import org.example.controller.Sound;
+import org.example.model.Game;
 
 import java.io.IOException;
 
@@ -23,6 +26,7 @@ public class App extends Application {
         scene = new Scene(loadFXML("primary"), 640, 480);
         stage.setScene(scene);
         stage.show();
+        Game.getInstance().setIntroMusic(Sound.playSound(Game.INTRO_SOUND, 0.5, true));
     }
 
     public static void setRoot(String fxml) throws IOException {
